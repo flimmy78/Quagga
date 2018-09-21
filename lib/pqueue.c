@@ -172,7 +172,10 @@ pqueue_dequeue (struct pqueue *queue)
 void
 pqueue_remove_at (int index, struct pqueue *queue)
 {
-  queue->array[index] = queue->array[--queue->size];
+  if (index == --queue->size)
+    return; /* we're removing the last entry */
+
+  queue->array[index] = queue->array[queue->size];
 
   if (index > 0
       && (*queue->cmp) (queue->array[index],
